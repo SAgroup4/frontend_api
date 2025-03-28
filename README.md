@@ -11,7 +11,12 @@
 可以通過在api目錄下執行pip install -r requirements.txt 來安裝所有依賴
 
 資料庫連接部分
-還沒有設定好金鑰.json收進 secrets/ 資料夾 
+目前是直接把金鑰.json放在api 根目錄裡之後
+在db.py檔案中的
+cred = credentials.Certificate("超長金鑰名稱.json")
+換上去
+
+之後要設定好金鑰.json收進 secrets/ 資料夾 
 專案結構可以長這樣：
 
 sa/
