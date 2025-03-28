@@ -20,22 +20,23 @@ sa/
 │   ├── db.py
 │   ├── ...
 │   └── secrets/
-│       └── firebase-key.json ✅ ← 放這裡
-2️⃣ 建立 .env 檔案
+│       └── firebase-key.json  ← 放這裡
+建立 .env 檔案
 在 api/ 目錄底下新增 .env 檔案，內容如下：
 
 FIREBASE_KEY_PATH=secrets/firebase-key.json
-3️⃣ 在 db.py 用 dotenv 自動載入
+在 db.py 用 dotenv 自動載入
 你原本的 db.py 要加這段（如果還沒加）：
 
 import os
 from dotenv import load_dotenv
 from firebase_admin import credentials, firestore, initialize_app
 
-# 載入 .env 檔案
+ 載入 .env 檔案
 load_dotenv()
+ 
+從環境變數取得金鑰位置
 
-# 從環境變數取得金鑰位置
 cred_path = os.getenv("FIREBASE_KEY_PATH")
 
 cred = credentials.Certificate(cred_path)
