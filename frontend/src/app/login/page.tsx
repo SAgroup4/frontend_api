@@ -1,3 +1,4 @@
+// ✅ 改寫：登入成功後儲存 JWT Token，並提供前端統一使用
 
 'use client';
 
@@ -26,15 +27,20 @@ const Login = () => {
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({ email: '', password: '' });
   const [openDialog, setOpenDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  // 🔐 串接後端 login API
   const handleLogin = async (isAccessible: boolean) => {
+    console.log("🟡 handleLogin 執行中...", formData);
     const { email, password } = formData;
 
     if (!email || !password) {
-      alert('請輸入帳號和密碼');
+      setError('請輸入帳號和密碼');
       return;
     }
+
+    setLoading(true);
+    setError('');
 
     try {
       const res = await fetch('http://localhost:8000/login', {
@@ -48,21 +54,22 @@ const Login = () => {
       const result = await res.json();
 
       if (res.ok) {
-        sessionStorage.setItem('isLoggedIn', 'true');
-        sessionStorage.setItem('userEmail', email);
+        localStorage.setItem('token', result.access_token);
+        localStorage.setItem('userEmail', email);
 
         if (isAccessible) {
-          // 無障礙版
           router.push('/general');
         } else {
-          setOpenDialog(true); // 顯示確認對話框
+          setOpenDialog(true);
         }
       } else {
-        alert(`登入失敗：${result.detail || '未知錯誤'}`);
+        setError(result.detail || '登入失敗，請檢查帳號密碼');
       }
     } catch (error) {
       console.error(error);
-      alert('伺服器錯誤，請稍後再試');
+      setError('伺服器錯誤，請稍後再試');
+    } finally {
+      setLoading(false);
     }
   };
 

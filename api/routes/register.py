@@ -36,11 +36,14 @@ async def register(data: RegisterRequest):
     student_id = data.email.split("@")[0]
     # 在Firebase中建立對應的文件參考
     doc_ref = db.collection("pending_users").document(student_id)
-
+    alreadyregister = db.collection("users").document(student_id)
     # 檢查該學號是否已經註冊
     # 如果在pending_users中找到對應文件，表示已經註冊或正在驗證中
     if doc_ref.get().exists:
         raise HTTPException(status_code=400, detail="此學號已經註冊或驗證中")
+    
+    if alreadyregister.get().exists:
+        raise HTTPException(status_code=400, detail="此學號已經註冊")
 
     # 對密碼進行加密處理
     # 1. encode()：將密碼字串轉換為位元組

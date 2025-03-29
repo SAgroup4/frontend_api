@@ -2,7 +2,7 @@
 import React, { useState, ChangeEvent } from 'react';
 import './styles.css';
 import { posts } from '../../../data/fakepost';
-
+import { useAuth } from '@/context/AuthProvider'; // 
 // 定義 Post 資料的型別
 interface Post {
   id: number;
@@ -24,6 +24,7 @@ interface Post {
  * @component
  */
 const PostList: React.FC = () => {
+  const { user } = useAuth();
   const [postContent, setPostContent] = useState<string>('');
   const [localPosts, setLocalPosts] = useState<Post[]>(posts.map(post => ({
     ...post,
@@ -37,7 +38,7 @@ const PostList: React.FC = () => {
       id: localPosts.length + 1,
       title: postContent.split('\n')[0] || '無標題',
       content: postContent,
-      author: '匿名用戶',
+      author: user?.email || '匿名用戶',
       time: '剛剛',
       comments: 0,
       category: '一般討論',

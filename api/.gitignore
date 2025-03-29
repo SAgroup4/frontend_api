@@ -7,3 +7,5 @@ __pycache__/
 
 # 忽略 Firebase 金鑰
 transfer-student-platform-firebase-adminsdk-fbsvc-faca01e665-*.json
+
+secrets/
