@@ -426,3 +426,48 @@
   font-size: 1rem;
   color: #333;
 }
+
+/* 新增按鈕樣式 */
+.add-button {
+  background-color: #4a90e2; /* 按鈕背景色 */
+  color: white; /* 按鈕文字顏色 */
+  border: none; /* 移除邊框 */
+  border-radius: 50%; /* 圓形按鈕 */
+  width: 48px; /* 按鈕寬度 */
+  height: 48px; /* 按鈕高度 */
+  font-size: 1.5rem; /* 文字大小 */
+  font-weight: bold; /* 文字加粗 */
+  cursor: pointer; /* 滑鼠變成手型 */
+  display: flex; /* 使用 flex 排版 */
+  justify-content: center; /* 水平置中 */
+  align-items: center; /* 垂直置中 */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 添加陰影 */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* 添加過渡效果 */
+}
+
+.add-button:hover {
+  background-color: #357abd; /* 懸停時背景色變深 */
+  transform: scale(1.1); /* 懸停時放大 */
+}
+
+.add-button:active {
+  transform: scale(0.95); /* 點擊時縮小 */
+}
+
+.title-with-icon {
+  display: flex;
+  align-items: center; /* 垂直置中 */
+  gap: 8px; /* 圖示與標題之間的間距 */
+}
+
+.title-icon {
+  font-size: 2rem; /* 圖示大小 */
+  color: #003366; /* 圖示顏色 */
+}
+
+.sidebar-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}

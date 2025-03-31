@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import './styles.css';
 import { useRouter } from 'next/navigation';
+import { AiOutlineTeam } from 'react-icons/ai'; // 引入 React Icon
 
 interface Post {
   id: number;
@@ -93,22 +94,20 @@ const PostList: React.FC = () => {
     handleCloseModal();
   };
 
-  
   const handlePostClick = (post: Post) => {
     router.push(`/pagedetail`);
   };
 
   return (
     <div className="post-list-container">
-      <h2 className="sidebar-title">來找找你的學習夥伴...？</h2>
-      <div className="post-form">
-        <input
-          type="text"
-          placeholder="有什麼樣的學習目標...？"
-          className="post-input-short"
-          onClick={handleOpenModal}
-          readOnly
-        />
+      <div className="post-header">
+        <div className="title-with-icon">
+          <AiOutlineTeam className="title-icon" />
+          <h1 className="sidebar-title">來找找你的學習夥伴...？</h1>
+        </div>
+        <button className="add-button" onClick={handleOpenModal}>
+          +
+        </button>
       </div>
 
       <div className="post-list">
