@@ -1,15 +1,15 @@
 .post-list-container {
   max-width: 960px;
   margin: 0 auto;
-  padding: 16px;
-  background-color: #f5f5f5;
+  padding: 1rem;
+  background-color: #f9f9f9;
 }
 
 .post-form {
   background-color: white;
   border: 1px solid #e0e0e0;
   border-radius: 12px;
-  padding: 24px;
+  padding: 16px;
   margin-bottom: 16px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
@@ -85,14 +85,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .post-title {
-  font-size: 18px;
-  margin: 0 0 8px;
-  font-weight: 600;
-  color: #2c3e50;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 8px;
 }
 
 .post-category {
@@ -105,27 +104,47 @@
 }
 
 .post-content {
-  margin: 16px 0;
-  color: #4a4a4a;
+  font-size: 1rem;
+  color: #333;
   line-height: 1.6;
-  font-size: 15px;
+  white-space: pre-wrap; /* 保留換行 */
+  margin-bottom: 16px;
 }
 
 .post-footer {
-  display: flex;
-  gap: 20px;
-  color: #7f8c8d;
-  font-size: 13px;
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid #f0f0f0;
+  font-size: 0.9rem;
+  color: #888;
+  text-align: right;
 }
 
-.post-author,
-.post-time,
-.post-comments {
+.post-author {
   display: flex;
   align-items: center;
+  gap: 8px;
+  color: #363636;
+}
+
+.post-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.post-timestamp {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+.post-body {
+  margin-bottom: 8px;
+  color:  #242424;
+}
+
+.post-replies {
+  color: #3e3e3e;
+  font-weight: bold;
+  text-align: left;
 }
 
 .post-list-container .sidebar-title {
@@ -142,8 +161,8 @@
 /* 貼文列表樣式 */
 .post-list {
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  flex-direction: column;
+  gap: 1rem;
   margin-top: 16px;
   background-color: #f9f9f9 !important;
 
@@ -151,17 +170,18 @@
 
 /* 貼文卡片樣式 */
 .post-card {
-  background-color: #ffffff !important; /* 修改為白色 */
+  background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   transition: box-shadow 0.3s ease;
-  width: calc(100% - 4%);
+  width: 100%;
 }
 
 .post-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .post-people {
@@ -330,4 +350,79 @@
   margin-left: 8px; /* 與左邊內容的間距 */
   font-size: 1.2em; /* 調整圖標大小 */
   vertical-align: middle; /* 與文字對齊 */
+}
+
+.post-detail-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 16px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.back-button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #357abd;
+}
+
+.post-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 16px;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 16px 0;
+}
+
+.comments-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.comment-item {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.comment-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.comment-author {
+  font-weight: bold;
+  color: #003366;
+}
+
+.comment-content {
+  font-size: 1rem;
+  color: #333;
 }

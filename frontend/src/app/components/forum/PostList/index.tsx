@@ -2,35 +2,66 @@
 
 import React, { useState } from 'react';
 import './styles.css';
-
+import { useRouter } from 'next/navigation';
 
 interface Post {
+  id: number;
   title: string;
   content: string;
-  specialRequest: string;
-  peopleCount: number;
-  currentPeople: number;
   author: string;
+  avatar: string;
+  timestamp: string;
+  replies: number;
 }
 
 const Post: React.FC<{ post: Post; onClick: (post: Post) => void }> = ({ post, onClick }) => {
   return (
     <div className="post-card" onClick={() => onClick(post)}>
-      <h3 className="post-title">#{post.title}</h3>
-      <p className="post-people">需求人數：{post.peopleCount}</p>
+      <div className="post-header">
+        <div className="post-author">
+          <img src={post.avatar} alt="頭貼" className="post-avatar" />
+          <span>{post.author}</span>
+        </div>
+        <span className="post-timestamp">{post.timestamp}</span>
+      </div>
+      <div className="post-body">
+        <h3 className="post-title">{post.title}</h3>
+        <p className="post-content">{post.content}</p>
+      </div>
+      <div className="post-footer">
+        <hr />
+        <span className="post-replies">{post.replies} 則回應</span>
+      </div>
     </div>
   );
 };
 
 const PostList: React.FC = () => {
+  const router = useRouter();
+  const [posts, setPosts] = useState<Post[]>([
+    {
+      id: 1,
+      title: '徵多益夥伴',
+      content: '今年8月底要考多益...',
+      author: '作者A',
+      avatar: '/default-avatar.png',
+      timestamp: '17 小時前',
+      replies: 76,
+    },
+    {
+      id: 2,
+      title: '徵運動夥伴',
+      content: '最近喜歡去健身房...',
+      author: '作者B',
+      avatar: '/default-avatar.png',
+      timestamp: '3 小時前',
+      replies: 11,
+    },
+  ]);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [specialRequest, setSpecialRequest] = useState('');
-  const [peopleCount, setPeopleCount] = useState(1);
-  const [posts, setPosts] = useState<Post[]>([]);
-  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -40,8 +71,6 @@ const PostList: React.FC = () => {
     setIsModalOpen(false);
     setTitle('');
     setContent('');
-    setSpecialRequest('');
-    setPeopleCount(1);
   };
 
   const handleSubmit = () => {
@@ -51,31 +80,27 @@ const PostList: React.FC = () => {
     }
 
     const newPost: Post = {
+      id: posts.length + 1,
       title,
       content,
-      specialRequest,
-      peopleCount,
-      currentPeople: 0, // 預設目前人數為 0
-      author: '匿名用戶', // 假設的發布者
+      author: '匿名用戶',
+      avatar: '/default-avatar.png',
+      timestamp: '剛剛',
+      replies: 0,
     };
 
-    setPosts([...posts, newPost]);
+    setPosts([newPost, ...posts]);
     handleCloseModal();
   };
 
+  
   const handlePostClick = (post: Post) => {
-    setSelectedPost(post);
-    setIsDetailModalOpen(true);
-  };
-
-  const handleCloseDetailModal = () => {
-    setIsDetailModalOpen(false);
-    setSelectedPost(null);
+    router.push(`/pagedetail`);
   };
 
   return (
     <div className="post-list-container">
-      <h2 className="sidebar-title">來找找你的學習夥伴</h2>
+      <h2 className="sidebar-title">來找找你的學習夥伴...？</h2>
       <div className="post-form">
         <input
           type="text"
@@ -87,8 +112,8 @@ const PostList: React.FC = () => {
       </div>
 
       <div className="post-list">
-        {posts.map((post, index) => (
-          <Post key={index} post={post} onClick={handlePostClick} />
+        {posts.map((post) => (
+          <Post key={post.id} post={post} onClick={handlePostClick} />
         ))}
       </div>
 
@@ -124,8 +149,6 @@ const PostList: React.FC = () => {
           </div>
         </div>
       )}
-
-      
     </div>
   );
 };
