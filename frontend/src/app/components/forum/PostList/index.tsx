@@ -1,90 +1,131 @@
-'use client';
-import React, { useState, ChangeEvent } from 'react';
+'use client'; // 設為 Client Component，確保可以使用交互
+
+import React, { useState } from 'react';
 import './styles.css';
-import { posts } from '../../../data/fakepost';
-import { useAuth } from '@/context/AuthProvider'; // 
-// 定義 Post 資料的型別
+
+
 interface Post {
-  id: number;
   title: string;
   content: string;
+  specialRequest: string;
+  peopleCount: number;
+  currentPeople: number;
   author: string;
-  time: string;
-  comments: number;
-  category: string;
 }
 
-/**
- * PostList 組件 - 顯示帖子列表
- * 
- * 功能：
- * 1. 顯示帖子列表
- * 2. 提供發帖功能
- * 
- * @component
- */
+const Post: React.FC<{ post: Post; onClick: (post: Post) => void }> = ({ post, onClick }) => {
+  return (
+    <div className="post-card" onClick={() => onClick(post)}>
+      <h3 className="post-title">#{post.title}</h3>
+      <p className="post-people">需求人數：{post.peopleCount}</p>
+    </div>
+  );
+};
+
 const PostList: React.FC = () => {
-  const { user } = useAuth();
-  const [postContent, setPostContent] = useState<string>('');
-  const [localPosts, setLocalPosts] = useState<Post[]>(posts.map(post => ({
-    ...post,
-    category: (post as Post).category || '一般討論' // 為缺少 category 的帖子添加默認分類
-  })));
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [specialRequest, setSpecialRequest] = useState('');
+  const [peopleCount, setPeopleCount] = useState(1);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
-  const handlePostSubmit = () => {
-    if (!postContent.trim()) return;
-
-    const newPost: Post = {
-      id: localPosts.length + 1,
-      title: postContent.split('\n')[0] || '無標題',
-      content: postContent,
-      author: user?.email || '匿名用戶',
-      time: '剛剛',
-      comments: 0,
-      category: '一般討論',
-    };
-
-    setLocalPosts([newPost, ...localPosts]);
-    setPostContent('');
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
   };
 
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setPostContent(e.target.value);
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setTitle('');
+    setContent('');
+    setSpecialRequest('');
+    setPeopleCount(1);
+  };
+
+  const handleSubmit = () => {
+    if (!title.trim() || !content.trim()) {
+      alert('請填寫標題和內文');
+      return;
+    }
+
+    const newPost: Post = {
+      title,
+      content,
+      specialRequest,
+      peopleCount,
+      currentPeople: 0, // 預設目前人數為 0
+      author: '匿名用戶', // 假設的發布者
+    };
+
+    setPosts([...posts, newPost]);
+    handleCloseModal();
+  };
+
+  const handlePostClick = (post: Post) => {
+    setSelectedPost(post);
+    setIsDetailModalOpen(true);
+  };
+
+  const handleCloseDetailModal = () => {
+    setIsDetailModalOpen(false);
+    setSelectedPost(null);
   };
 
   return (
     <div className="post-list-container">
+      <h2 className="sidebar-title">來找找你的學習夥伴</h2>
       <div className="post-form">
-        <textarea
-          placeholder="分享你的想法..."
-          className="post-input"
-          value={postContent}
-          onChange={handleChange}
+        <input
+          type="text"
+          placeholder="有什麼樣的學習目標...？"
+          className="post-input-short"
+          onClick={handleOpenModal}
+          readOnly
         />
-        <button 
-          className="post-button"
-          onClick={handlePostSubmit}
-        >
-          發佈
-        </button>
       </div>
 
-      <div className="posts">
-        {localPosts.map((post) => (
-          <div key={post.id} className="post-item">
-            <div className="post-header">
-              <h3 className="post-title">{post.title}</h3>
-              <span className="post-category">{post.category}</span>
-            </div>
-            <p className="post-content">{post.content}</p>
-            <div className="post-footer">
-              <span className="post-author">{post.author}</span>
-              <span className="post-time">{post.time}</span>
-              <span className="post-comments">{post.comments} 則留言</span>
-            </div>
-          </div>
+      <div className="post-list">
+        {posts.map((post, index) => (
+          <Post key={index} post={post} onClick={handlePostClick} />
         ))}
       </div>
+
+      {isModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h3>新增學習目標</h3>
+            <div className="modal-field">
+              <label>標題：</label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="輸入標題"
+              />
+            </div>
+            <div className="modal-field">
+              <label>內文：</label>
+              <textarea
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+                placeholder="輸入內文"
+              />
+            </div>
+            <div className="modal-actions">
+              <button onClick={handleSubmit} className="submit-button">
+                提交
+              </button>
+              <button onClick={handleCloseModal} className="cancel-button">
+                取消
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      
     </div>
   );
 };

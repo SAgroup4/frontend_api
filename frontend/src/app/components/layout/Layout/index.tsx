@@ -1,33 +1,27 @@
-'use client'; // 設為 Client Component，確保可以使用 UI 交互
+'use client'; // 設為 Client Component，確保可以使用交互
 
-import React, { ReactNode } from 'react';
-import Header from '../Header';
-import Sidebar from '../Sidebar';
-import './styles.css';
-
-interface LayoutProps {
-  children: ReactNode;
-}
+import React from 'react';
+import Header from '../Header'; // 確保 Header 路徑正確
+import Sidebar from '../Sidebar'; // 確保 Sidebar 路徑正確
+import './styles.css'; // 確保樣式檔案路徑正確
 
 /**
- * Layout 組件 - 網站主要布局結構
- *
+ * Layout 組件 - 網站主要佈局
+ * 
  * 功能：
- * 1. 整合 Header 和 Sidebar 組件
- * 2. 提供主要內容區域的布局結構
- * 3. 實現響應式布局
- *
+ * 1. 包含 Header、Sidebar 和主要內容區域
+ * 2. 提供頁面內容的容器
+ * 
  * @component
- * @param {LayoutProps} props - 組件屬性
  */
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <div className="layout">
       <Header />
       <div className="layout-main">
         <Sidebar />
         <main className="content-area">
-          {children} {/* 使用 children 取代 Outlet */}
+          {children}
         </main>
       </div>
     </div>
