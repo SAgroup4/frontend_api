@@ -1,6 +1,10 @@
 'use client';
+import Image from 'next/image';
+
 import React from 'react';
 import './styles.css';
+import logo from './輔大logo.png'; // 假設 logo.png 位於 public 資料夾
+
 
 /**
  * Header組件 - 網站頂部導航欄
@@ -25,7 +29,8 @@ const Header: React.FC = () => {
   return (
     <header className="header">
       <div className="header-logo">
-        <h1>輔仁大學學生交流平台</h1>
+      <Image src={logo} alt="輔仁大學 Logo" className="logo-image" width={50} height={50} />
+      <h1>輔仁大學學生交流平台</h1>
       </div>
       
       <div className="header-search">

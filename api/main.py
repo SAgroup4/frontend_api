@@ -7,7 +7,8 @@ from fastapi.middleware.cors import CORSMiddleware
 # 引入註冊和驗證相關的路由模組
 from routes import register  # 處理使用者註冊的路由
 from routes import verify    # 處理郵件驗證的路由
-from routes import login 
+from routes import login     # 處理登入相關的路由
+from routes import post      # 處理文章相關的路由
 # 創建FastAPI應用實例
 app = FastAPI()
 
@@ -30,4 +31,5 @@ app.add_middleware(
 # 這些路由模組包含了處理不同API端點的邏輯
 app.include_router(register.router)  # 加入註冊相關的路由
 app.include_router(verify.router)    # 加入驗證相關的路由
-app.include_router(login.router)
+app.include_router(login.router)     # 加入登入相關的路由
+app.include_router(post.post_router) # 加入文章相關的路由
